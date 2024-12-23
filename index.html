@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de medicamentos veterinários</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <h1>Calculadora de Medicamentos Veterinários</h1>
+    </header>
+
+    <main>
+        <h2 class="icon">1</h2>
+        <h2>Informações do Animal</h2>
+        <div class="peso">
+            <section id="informa-peso">
+                <label for="peso">Informe o peso em kg:</label>
+                <input type="number" name="peso" id="peso-kg" step="1" value="0"> kg
+                <input type="number" name="peso" id="peso-g" step="1" value="0"> g
+                
+                
+    
+            </section>
+    
+            <section id="calcula-area-corporal" class="dados">
+                <p id="peso-informado"> <strong>Peso:</strong> 0kg 0g</p>
+                <p id="area-corporal"> <strong>Área Corporal:</strong> 0,00 mg <sup>2</sup> </p>
+            </section>
+        </div>
+        <h2 class="icon">2</h2>
+        <h2>Informações do Medicamento</h2>
+        <section id="dosagem" class="dose">
+            <label for="dose">Informe a dose:</label>
+            <input type="number" name="dose" id="dose-mg-kg" step="1" value="0"> mg/kg
+            <br>
+            <label for="apresentacao-medicamento">Informe a apresentação do medicamento:</label>
+            <input type="number" name="dose" id="dose-mg-ml" step="1" value="0"> mg/mL
+
+            <div class="dados">
+                <p id="dosefinal"><strong>Dose: </strong>a dosagem a ser aplicada é de 0 mL</p>
+            </div>
+            
+        </section>
+
+        <h2 class="icon">3</h2>
+        <h2>Informações do Medicamento (comprimidos) </h2>
+        <section id="dose-comprimido" class="dose">
+            <label for="apresentacao-cp">Informe a quantidade de mg por comprimido:</label>
+            <input type="number" name="dose" id="dose-mg-cp" step="1" value="0"> mg/cp
+
+            <div class="dados">
+                <p id="dosefinal-cp"><strong>Dose: </strong>a dosagem a ser administrada é de 0 cp</p>
+            </div>
+            
+
+        </section>
+    </main>
+
+    <script>
+        const pesoEmKg = document.getElementById('peso-kg');
+        const pesoEmG = document.getElementById('peso-g');
+        const pesoInformado = document.getElementById('peso-informado');
+
+        // Informação do peso
+        const atualizarPesoInformado = () => {
+            pesoInformado.innerHTML = `<strong>Peso:</strong> ${pesoEmKg.value}kg ${pesoEmG.value}g`;
+        };
+
+        pesoEmKg.addEventListener('input', atualizarPesoInformado);
+        pesoEmG.addEventListener('input', atualizarPesoInformado);
+
+        // Área corporal
+        const areaCorporal = document.getElementById('area-corporal');
+
+        const calcularAreaCorporal = () => {
+            const pesoKg = parseFloat(pesoEmKg.value) || 0;
+            const pesoG = parseFloat(pesoEmG.value) || 0;  
+            const pesoEmGparaKg = pesoG / 1000;
+            const pesoTotal = pesoKg + pesoEmGparaKg;
+            const area = (10.1 * (pesoTotal ** 0.666)) / 100;
+
+            areaCorporal.innerHTML = `<strong>Área Corporal:</strong> ${area.toFixed(2)} mg²`;
+        };
+
+        pesoEmKg.addEventListener('input', calcularAreaCorporal);
+        pesoEmG.addEventListener('input', calcularAreaCorporal);
+
+        // Dose
+        const dose = document.getElementById('dose-mg-kg');
+        const doseMgMlInformada = document.getElementById('dose-mg-ml');
+
+        const calcularDose = () => {
+            const pesoKg = parseFloat(pesoEmKg.value) || 0;
+            const pesoG = parseFloat(pesoEmG.value) || 0;  
+            const pesoEmGparaKg = pesoG / 1000;
+            const pesoTotal = pesoKg + pesoEmGparaKg;
+
+            const doseCalculada = pesoTotal * (parseFloat(dose.value) || 0);
+            return doseCalculada;
+        };
+
+        const calcularDoseML = () => {
+            const doseCalculada = calcularDose();
+            const doseMgMl = parseFloat(doseMgMlInformada.value) || 0;
+
+            const doseEmML = doseCalculada / doseMgMl;
+
+            const doseFinal = document.getElementById('dosefinal');
+            doseFinal.innerHTML = `<strong>Dose: </strong>a dosagem a ser aplicada é de ${doseEmML.toFixed(2)} mL`;
+        };
+
+        // Adicionar listeners para recalcular a dose
+        pesoEmKg.addEventListener('input', calcularDoseML);
+        pesoEmG.addEventListener('input', calcularDoseML);
+        dose.addEventListener('input', calcularDoseML);
+        doseMgMlInformada.addEventListener('input', calcularDoseML);
+
+
+        // Calcular dose em comprimido
+
+        const doseCp = document.getElementById('dose-mg-cp');
+        const calcularDoseCp = () => {
+            const doseCalculada = calcularDose();
+
+            const doseEmCp = doseCalculada / parseFloat(doseCp.value);
+            const doseFinalCp = document.getElementById('dosefinal-cp');
+            doseFinalCp.innerHTML = `<strong>Dose: </strong>a dosagem a ser administrada é de ${doseEmCp} cp`;
+        };
+        
+        pesoEmKg.addEventListener('input', calcularDoseCp);
+        pesoEmG.addEventListener('input', calcularDoseCp);
+        dose.addEventListener('input', calcularDoseCp);
+        doseCp.addEventListener('input', calcularDoseCp);
+
+
+    </script>
+</body>
+</html>

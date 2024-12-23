@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Raleway", serif;
+    background-color: #ffb7d3;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header{
+    margin: 30px 0;
+    text-align: center;
+    font-size: 23px;
+}
+
+.peso, .dose{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+
+input[type="number"]{
+    width: 70px;
+    border: 2px solid #ffb7d3;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.dados{
+    background-color: #ffe4ee;
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 50px;
+    margin-top: 10px;
+    font-size: 20px;
+    width: 500px;
+ 
+}
+
+strong{
+    color:#ff5395;
+}
+
+h2 .icon, h2{
+    display: inline;
+}
+
+.icon{
+    background-color: #fff;
+    color:#ff5395;
+    border-radius: 50%;
+    padding: 0 8px;
+}
